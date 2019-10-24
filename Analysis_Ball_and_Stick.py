@@ -2,12 +2,18 @@ import pandas as pd
 import numpy as py
 import os
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
 
+# import GCB_Vs_Ground as GVF
 
-cold_data = {'cold_bounce' : [32, 28, 30, 32, 34, 37, 35, 31, 37, 39, 36, 37, 34, 36,
+mydir = os.path.expanduser('~/Desktop/Dine College/SY-2019/Fall-2019')
+
+cold_data = {'cold bounce' : [32, 28, 30, 32, 34, 37, 35, 31, 37, 39, 36, 37, 34, 36,
                          36, 32, 39, 40, 40, 41, 42, 42, 41, 40, 41, 41, 40, 42,
                          41, 44, 43, 43, 44, 44, 41, 44, 42, 44, 45, 46, 47, 45,
                          43, 45, 46, 46, 48, 46, 47, 46] }
+
 data = {
         'floor' : [51, 55, 60, 50, 50, 53, 55, 54, 53, 58, 57, 56, 56, 58, 
                        58,56, 55, 58, 57, 59, 60, 58, 58, 58],
@@ -23,10 +29,27 @@ data = {
 Treatment = pd.DataFrame(data)
 Cold = pd.DataFrame(cold_data)
 
+T_Statistic = Treatment.describe()
+C_Statistic = Cold.describe()
+
 Correlation = Treatment.corr(method = 'pearson')
 
-print(Correlation)
+x = data['floor']
+y = data['ground']
+    
+model = sm.OLS(y,x)
+fit = model.fit()
+Sum = fit.summary()
+    
+d_floor = data['floor']
+    
+print(Sum)
 '''
+print(Correlation)
+
 print(Cold)
 print(Treatment)
+
+print(T_Statistic)
+print(C_Statistic)
 '''
